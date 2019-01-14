@@ -27,7 +27,7 @@ public class DetailActivity extends AppCompatActivity {
     //Adapter
     private DetailAdapter mAdapter;
 
-    private Context thisContext;
+    private Context thisContext = this;
 
 
     public static Intent newIntend(Context context) {
