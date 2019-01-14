@@ -1,2 +1,2 @@
 # QR
-A Android QR app
+Android QR app
