@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Express</string>
+    <!-- Strings related to login -->
+    <string name="prompt_user">账号</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_register">注册</string>
+    <string name="action_sign_in">登录</string>
+    <string name="prompt_username">用户名</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+    <!-- Strings related to route -->
+    <string name="login_route">10.0.2.2/login</string>
+    <string name="register_route">10.0.2.2/register</string>
+    <string name="detail_route">10.0.2.2/detail</string>
+    <string name="add_route">10.0.2.2/add</string>
+    <string name="delete_route">10.0.2.2/delete</string>
+</resources>
