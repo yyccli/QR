@@ -15,10 +15,7 @@
         completions."
     </string>
 
-    <!-- Strings related to route -->
-    <string name="login_route">10.0.2.2/login</string>
-    <string name="register_route">10.0.2.2/register</string>
-    <string name="detail_route">10.0.2.2/detail</string>
-    <string name="add_route">10.0.2.2/add</string>
-    <string name="delete_route">10.0.2.2/delete</string>
+    <!-- Strings related to detail -->
+    <string name="username">当前用户：</string>
+    <string name="receiver">收件人信息：</string>
 </resources>

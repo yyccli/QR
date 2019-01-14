@@ -16,9 +16,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hasee.express.R;
+import com.example.hasee.express.express.beans.ListItemMessageLab;
 import com.example.hasee.express.express.netThread.RequestTask;
 import com.example.hasee.express.express.utils.PostUtil;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -86,7 +88,7 @@ public class LoginActivity extends Activity {
         mPasswordEditText.setError(null);
 
         // 存储此次登陆的账号和密码
-        String user = mUserlEditText.getText().toString();
+        final String user = mUserlEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
 
         boolean cancel = false;
@@ -111,7 +113,12 @@ public class LoginActivity extends Activity {
             paramap.put("password", password);
 
             //构造后台线程发送网络请求
-            RequestTask requestTask = new RequestTask(PostUtil.LOGIN_ROUTE, paramap);
+            RequestTask requestTask = null;
+            if (user.equals("root")) {
+                requestTask = new RequestTask(PostUtil.ROOT_ROUTE, paramap);
+            } else {
+                requestTask = new RequestTask(PostUtil.LOGIN_ROUTE, paramap);
+            }
             requestTask.setCallbacks(new RequestTask.Callbacks() {
                 @Override
                 public void updateUI(JSONObject jsonObject) {
@@ -122,14 +129,25 @@ public class LoginActivity extends Activity {
                         if (responseCode.equals("101")) {
                             Toast.makeText(thisContext, "用户名或密码错误", Toast.LENGTH_SHORT)
                                     .show();
-                        } else if (responseCode.equals("102")){
-                            Toast.makeText(thisContext, "用户名不存在", Toast.LENGTH_SHORT)
-                                    .show();
                         } else {
-                            //TODO:，进入细节页面
-//                            Intent i = new Intent();
-//                            i.putExtra("d", jsonObject.toString());
+                            //登陆成功，将服务器返回的数据保存
+                            //因为json格式设计的问题，这里存储数据很复杂
+                            if (user.equals("root")) {
+                                JSONArray tempjsonArray = jsonObject.getJSONObject("data")
+                                        .getJSONArray("array");
+                                for (int i = 0; i < tempjsonArray.length(); i++){
+                                    JSONObject tempjson = (JSONObject) tempjsonArray.get(i);
+                                    saveOneCourierMes(tempjson);
+                                }
+                            } else {
+                                JSONObject tempjson = jsonObject.getJSONObject("data");
+                                saveOneCourierMes(tempjson);
+                            }
 
+                            //进入用户页面
+                            Intent intent = DetailActivity.newIntend(thisContext);
+                            intent.putExtra("name", user);
+                            startActivity(intent);
                         }
 
                         Log.i("登录返回:", "hhhhhhhhh");
@@ -161,6 +179,25 @@ public class LoginActivity extends Activity {
         mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
     }
 
+
+    /**
+     * 将单个courier的JSON存储到模型层中
+     * @param jsonObject courier
+     */
+    private void saveOneCourierMes(JSONObject jsonObject) {
+        String sender = null;
+        try {
+            sender = jsonObject.getJSONObject("courier").getString("name");
+
+            JSONArray tempjsonArray = jsonObject.getJSONArray("receivers");
+            for (int i = 0; i < tempjsonArray.length(); i++) {
+                ListItemMessageLab.getListItemMessageLab()
+                        .add((String) tempjsonArray.get(i), sender);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

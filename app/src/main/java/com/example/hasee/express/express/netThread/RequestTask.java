@@ -2,8 +2,10 @@ package com.example.hasee.express.express.netThread;
 
 import android.os.AsyncTask;
 
+import com.example.hasee.express.express.beans.ListItemMessageLab;
 import com.example.hasee.express.express.utils.PostUtil;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
@@ -36,6 +38,7 @@ public class RequestTask extends AsyncTask<Void, Void, JSONObject> {
 
     @Override
     protected void onPostExecute(JSONObject jsonObject) {
+        ListItemMessageLab.getListItemMessageLab().clear();
         mCallbacks.updateUI(jsonObject);
     }
 }

@@ -21,6 +21,7 @@ public class PostUtil {
     public static String TAG = "PostUtil";
     public static String REGISTER_ROUTE = "http://10.0.2.2:3000/register";
     public static String LOGIN_ROUTE = "http://10.0.2.2/login";
+    public static String ROOT_ROUTE = "http://10.0.2.2/root";
     public static String DETAIL_ROUTE = "http://10.0.2.2/detail";
     public static String ADD_ROUTE = "http://10.0.2.2/add";
     public static String DELETE_ROUTE = "http://10.0.2.2/delete";
