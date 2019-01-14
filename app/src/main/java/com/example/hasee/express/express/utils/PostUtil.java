@@ -20,18 +20,17 @@ public class PostUtil {
 
     public static String TAG = "PostUtil";
     public static String REGISTER_ROUTE = "http://10.0.2.2:3000/register";
-    public static String LOGIN_ROUTE = "10.0.2.2/login";
-    public static String DETAIL_ROUTE = "10.0.2.2/detail";
-    public static String ADD_ROUTE = "10.0.2.2/add";
-    public static String DELETE_ROUTE = "10.0.2.2/delete";
+    public static String LOGIN_ROUTE = "http://10.0.2.2/login";
+    public static String DETAIL_ROUTE = "http://10.0.2.2/detail";
+    public static String ADD_ROUTE = "http://10.0.2.2/add";
+    public static String DELETE_ROUTE = "http://10.0.2.2/delete";
 
-    private StringBuilder url;
-    private String url1;
+    private String url;
     private Map<String, String> paraMap;
 
     public PostUtil(String route, Map<String, String> map) {
         //url = new StringBuilder(route);
-        url1 = route;
+        url = route;
         paraMap = map;
     }
 
@@ -54,7 +53,7 @@ public class PostUtil {
      */
     private String buildRequest() {
         try {
-            HttpURLConnection conn = (HttpURLConnection)new URL(url1).openConnection();
+            HttpURLConnection conn = (HttpURLConnection)new URL(url).openConnection();
 
             //设置请求方式和超时信息
             conn.setRequestMethod("POST");

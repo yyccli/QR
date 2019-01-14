@@ -107,7 +107,7 @@ public class LoginActivity extends Activity {
 
             //构造Map参数映射
             Map<String, String> paramap = new HashMap<>();
-            paramap.put("user", user);
+            paramap.put("username", user);
             paramap.put("password", password);
 
             //构造后台线程发送网络请求
