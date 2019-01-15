@@ -100,13 +100,14 @@ public class DetailActivity extends AppCompatActivity {
                         }
                     }
                 });
+                requestTask.execute();
             }
 
             @Override
             public void onDeleteClick(int position, String receiverName, String courierUsername) {
                 //删除请求
                 showDeleteDialog(receiverName, courierUsername);
-//                mAdapter.removeItem(position);
+                mAdapter.removeItem(position);
             }
         });
 
@@ -226,6 +227,7 @@ public class DetailActivity extends AppCompatActivity {
                 requestTask.execute();
             }
         });
+        normalDialog.create().show();
     }
 
 }
