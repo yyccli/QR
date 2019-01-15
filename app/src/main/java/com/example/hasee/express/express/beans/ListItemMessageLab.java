@@ -30,6 +30,10 @@ public class ListItemMessageLab {
         mList.add(new ListItemMessage(receiver, sender));
     }
 
+    public void remove(String receiver, String courier) {
+        mList.remove(new ListItemMessage(receiver, courier));
+    }
+
     public List<ListItemMessage> getList() {
         return mList;
     }

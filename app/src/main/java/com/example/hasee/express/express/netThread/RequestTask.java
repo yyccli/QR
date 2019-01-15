@@ -38,7 +38,14 @@ public class RequestTask extends AsyncTask<Void, Void, JSONObject> {
 
     @Override
     protected void onPostExecute(JSONObject jsonObject) {
-        ListItemMessageLab.getListItemMessageLab().clear();
+        //当后台任务返回的数据没有data，说明是添加和删除操作，不需要清理ListItemMessageLab
+        try {
+            if (jsonObject.getJSONObject("data") != null) {
+                ListItemMessageLab.getListItemMessageLab().clear();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         mCallbacks.updateUI(jsonObject);
     }
 }

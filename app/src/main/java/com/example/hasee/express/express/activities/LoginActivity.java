@@ -105,60 +105,79 @@ public class LoginActivity extends Activity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            showProgress(true);
+//            showProgress(true);
+//
+//            //构造Map参数映射
+//            Map<String, String> paramap = new HashMap<>();
+//            paramap.put("username", user);
+//            paramap.put("password", password);
+//
+//            //构造后台线程发送网络请求
+//            RequestTask requestTask = null;
+//            if (user.equals("root")) {
+//                requestTask = new RequestTask(PostUtil.ROOT_ROUTE, paramap);
+//            } else {
+//                requestTask = new RequestTask(PostUtil.LOGIN_ROUTE, paramap);
+//            }
+//            requestTask.setCallbacks(new RequestTask.Callbacks() {
+//                @Override
+//                public void updateUI(JSONObject jsonObject) {
+//                    try {
+//                        String responseCode = jsonObject.getString("status");
+//                        showProgress(false);
+//
+//                        if (responseCode.equals("101")) {
+//                            Toast.makeText(thisContext, "用户名或密码错误", Toast.LENGTH_SHORT)
+//                                    .show();
+//                        } else {
+//                            //登陆成功，将服务器返回的数据保存
+//                            //因为json格式设计的问题，这里存储数据很复杂
+//                            if (user.equals("root")) {
+//                                JSONArray tempjsonArray = jsonObject.getJSONObject("data")
+//                                        .getJSONArray("array");
+//                                for (int i = 0; i < tempjsonArray.length(); i++){
+//                                    JSONObject tempjson = (JSONObject) tempjsonArray.get(i);
+//                                    saveOneCourierMes(tempjson);
+//                                }
+//                            } else {
+//                                JSONObject tempjson = jsonObject.getJSONObject("data");
+//                                saveOneCourierMes(tempjson);
+//                            }
+//
+//                            //进入用户页面
+//                            Intent intent = DetailActivity.newIntend(thisContext);
+//                            intent.putExtra("name", user);
+//                            startActivity(intent);
+//                        }
+//
+//                        Log.i("登录返回:", "hhhhhhhhh");
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//
+//            requestTask.execute();
 
-            //构造Map参数映射
-            Map<String, String> paramap = new HashMap<>();
-            paramap.put("username", user);
-            paramap.put("password", password);
-
-            //构造后台线程发送网络请求
-            RequestTask requestTask = null;
-            if (user.equals("root")) {
-                requestTask = new RequestTask(PostUtil.ROOT_ROUTE, paramap);
-            } else {
-                requestTask = new RequestTask(PostUtil.LOGIN_ROUTE, paramap);
+            //测试数据
+            String json = "{\n" +
+                    "\"courier\":\n" +
+                    "{\n" +
+                    "\"name\": \"zhlname\",\n" +
+                    "\"username\": \"zhl\"\n" +
+                    "},\n" +
+                    "\"receivers\":[\"lyc\", \"dsg\", \"pla\"]\n" +
+                    "}";
+            try {
+                saveOneCourierMes(new JSONObject(json));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            requestTask.setCallbacks(new RequestTask.Callbacks() {
-                @Override
-                public void updateUI(JSONObject jsonObject) {
-                    try {
-                        String responseCode = jsonObject.getString("status");
-                        showProgress(false);
+            Intent intent = DetailActivity.newIntend(thisContext);
+            intent.putExtra("username", user);
 
-                        if (responseCode.equals("101")) {
-                            Toast.makeText(thisContext, "用户名或密码错误", Toast.LENGTH_SHORT)
-                                    .show();
-                        } else {
-                            //登陆成功，将服务器返回的数据保存
-                            //因为json格式设计的问题，这里存储数据很复杂
-                            if (user.equals("root")) {
-                                JSONArray tempjsonArray = jsonObject.getJSONObject("data")
-                                        .getJSONArray("array");
-                                for (int i = 0; i < tempjsonArray.length(); i++){
-                                    JSONObject tempjson = (JSONObject) tempjsonArray.get(i);
-                                    saveOneCourierMes(tempjson);
-                                }
-                            } else {
-                                JSONObject tempjson = jsonObject.getJSONObject("data");
-                                saveOneCourierMes(tempjson);
-                            }
-
-                            //进入用户页面
-                            Intent intent = DetailActivity.newIntend(thisContext);
-                            intent.putExtra("name", user);
-                            startActivity(intent);
-                        }
-
-                        Log.i("登录返回:", "hhhhhhhhh");
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            requestTask.execute();
+            startActivity(intent);
         }
     }
 
@@ -187,7 +206,7 @@ public class LoginActivity extends Activity {
     private void saveOneCourierMes(JSONObject jsonObject) {
         String sender = null;
         try {
-            sender = jsonObject.getJSONObject("courier").getString("name");
+            sender = jsonObject.getJSONObject("courier").getString("username");
 
             JSONArray tempjsonArray = jsonObject.getJSONArray("receivers");
             for (int i = 0; i < tempjsonArray.length(); i++) {

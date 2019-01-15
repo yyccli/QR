@@ -18,4 +18,13 @@
     <!-- Strings related to detail -->
     <string name="username">当前用户：</string>
     <string name="receiver">收件人信息：</string>
+    
+    <!--Strings related to addDialog-->
+    <string name="courier_name">快递员账号：</string>
+    <string name="receiver_name">收件人姓名：</string>
+    <string name="receiver_address">收件人地址：</string>
+    <string name="receiver_tel">收件人电话：</string>
+    <string name="commit">确定</string>
+    <string name="cancel">取消</string>
+    
 </resources>
