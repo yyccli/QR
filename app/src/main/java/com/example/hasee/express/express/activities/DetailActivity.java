@@ -13,16 +13,20 @@ import com.example.hasee.express.express.utils.PostUtil;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,6 +77,7 @@ public class DetailActivity extends AppCompatActivity {
         mRecyclerView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(DetailViewHolder viewHolder, int position) {
+
                 //进入二维码对话框
                 String receiverName = viewHolder.getMessage().getReceiver();
                 String courierName = viewHolder.getMessage().getSender();
@@ -92,7 +97,14 @@ public class DetailActivity extends AppCompatActivity {
                                 Log.i("接收到的img为：", base64Img);
 
                                 //TODO:将图片解码并显示出来
-
+                                Bitmap bitmap = null;
+                                try {
+                                    byte[] bitmapArray = Base64.decode(base64Img.split(",")[1], Base64.DEFAULT);
+                                    bitmap = BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                showQRDialog(bitmap);
 
                             }
                         } catch (JSONException e) {
@@ -195,7 +207,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     /**
-     * 弹出添加对话框
+     * 弹出删除对话框
      */
     private void showDeleteDialog(final String receiverName, final String courierUsername) {
         AlertDialog.Builder normalDialog = new AlertDialog.Builder(this);
@@ -230,4 +242,23 @@ public class DetailActivity extends AppCompatActivity {
         normalDialog.create().show();
     }
 
+    /**
+     * 显示二维码对话框
+     */
+    private void showQRDialog(Bitmap bitmap) {
+        final View dialog = LayoutInflater.from(this).inflate(R.layout.dialog_qr, null);
+        ImageView imageView = (ImageView) dialog.findViewById(R.id.qr_imageView);
+        imageView.setImageBitmap(bitmap);
+
+        final AlertDialog.Builder QRDialog = new AlertDialog.Builder(this);
+        QRDialog.setView(dialog);
+        QRDialog.setTitle("请扫描二维码获取用户信息");
+        QRDialog.setPositiveButton("关闭", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //不做
+            }
+        });
+        QRDialog.create().show();
+    }
 }
