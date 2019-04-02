@@ -1,2 +1,2 @@
 # QR
-Android QR app
+Android QR app with zhl.
